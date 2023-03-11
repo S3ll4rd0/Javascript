@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <title>storage01</title>
+
+<script>
+ window.addEventListener("load",function(){
+ var boton=document.getElementById("pulsa"); 
+      boton.addEventListener("click",function(){
+ if(localStorage) alert("localStorage existe");
+ else alert("NO existe localStorage");
+ if(sessionStorage) alert("sessionStorage existe");
+ else alert("NO existe sessionStorage");
+ });
+ });
+</script>
+</head>
+<body>
+<div><p>Ejemplo para comprobar si podemos usar localStorage
+ y sessionStorage</p>
+<p><button id="pulsa">Comprobación</button></p></div>
+</body>
+</html>

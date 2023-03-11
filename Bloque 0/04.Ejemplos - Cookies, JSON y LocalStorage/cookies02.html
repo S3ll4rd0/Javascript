@@ -1,0 +1,25 @@
+<html>
+<head>
+<title> cookies02.html</title>
+<meta charset="UTF-8" />
+<script>
+window.onload=function(){
+ alert("Hola");
+    var fecha=new Date();
+    
+ console.log("Fecha actual: " + fecha.toUTCString());
+ fecha.setTime(fecha.getTime()+60*60*1000);
+ console.log("Fecha vencimiento: "+fecha.toUTCString());
+ document.cookie="local=valorlocal";
+ document.cookie="variable=valor;max-age="+60*60*24*30+";path=/curso2122";
+
+ };
+ </script>
+</head>
+<body>
+<div id="capa">
+<p id="parrafo1"> Hemos creado una cookie 02. pulsar F12 - Application - cookies -
+localhost</p>
+</div>
+</body>
+</html>

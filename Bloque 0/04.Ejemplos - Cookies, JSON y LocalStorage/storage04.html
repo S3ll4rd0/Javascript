@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <title>storage04</title>
+
+<script>
+ window.addEventListener("load",function(){
+ document.getElementById("boton").addEventListener("click",function(){
+ localStorage.clear();
+ alert("ahora comprobar que se ha borrado todo");
+ });
+ document.getElementById("boton1").addEventListener("click",function(){
+ if(localStorage.getItem("variable1")===null)
+ alert("variable1 no existe");
+ if(localStorage.variable2===undefined)
+ alert("variable2 no existe");
+ if(localStorage["variable3"]===undefined)
+ alert("variable3 no existe");
+ });
+ document.getElementById("boton2").addEventListener("click",function(){
+ localStorage.removeItem("variable1");
+ alert("comprobar que se ha borrado variable1");
+ });
+ document.getElementById("anyadir").addEventListener("click",function(){
+ localStorage.setItem("variable1","valor1");
+ localStorage.setItem("variable2","valor2");
+ localStorage.setItem("variable3",30);
+ });
+ }); 
+</script>
+</head>
+<body>
+<div>localStorage y sessionStorage. Comprobar valores y borrar
+valores</div>
+<button id="anyadir">Crear valores</button>
+<button id="boton">Borrar todo</button>
+<button id="boton1">Comprobar</button>
+<button id="boton2">Borrar "variable1"</button>
+</body>
+</html>

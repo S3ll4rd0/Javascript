@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>ajax2-ejemplo06</title>
+<script>
+window.addEventListener("load",inicia,false);
+var datos;
+function inicia(){
+   var cficheros;
+   benviar=document.getElementById("formulario");
+   benviar.addEventListener("submit",comprueba);
+}
+
+function comprueba(e){
+   datos=new FormData(benviar);
+   miajax();
+   e.preventDefault();
+}
+
+function miajax(){
+   ajax=new XMLHttpRequest();
+   ajax.addEventListener("load",mostrar,false);
+   ajax.open("POST","documento2c.php",true);
+   ajax.send(datos);
+}
+
+function mostrar(e){  
+   var v_resultado=document.getElementById("resultado");
+   v_resultado.innerHTML=e.target.responseText;
+   xml=e.target
+}
+
+</script>
+
+</head>
+<body>
+<h2>Formulario para subir ficheros</h2>
+<section id="peticion" >
+    <form id="formulario" enctype="multipart/form-data" >
+        <input type="text" id="texto", name="ntexto" >
+        <input type="file" name="mficheros" id="ficheros" >
+        <input type="submit" value="enviar" >
+    </form>
+</section>
+<section id="resultado">
+</section>
+</body>
+</html>

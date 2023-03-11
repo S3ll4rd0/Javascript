@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <title>storage02</title>
+<script>
+ window.onload=function(){
+ localStorage.setItem("variable1","valor1");
+ localStorage.variable2="valor2";
+ localStorage["variable3"]=30;
+ alert("Tipo de valor cariable 3: " + typeof localStorage["variable3"]);
+     document.write("Recuperamos variable1: "+localStorage.getItem("variable1"));
+     document.write("  \nRecuperamos variable2: "+localStorage.variable2);
+     document.write("  \nRecuperamos variable3: "+localStorage.variable3);
+     
+ };
+</script>
+</head>
+<body>
+<div><p>Ejemplo para comprobar como se almacena información en
+storage</p>
+    
+    
+<p><button id="pulsa">Comprobación</button></p>
+</div>
+   
+</body>
+</html>

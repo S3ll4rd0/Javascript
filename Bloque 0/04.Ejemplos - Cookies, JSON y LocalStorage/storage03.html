@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <title>storage03</title>
+
+<script>
+ window.addEventListener("load",function(){
+ var boton=document.getElementById("pulsa");
+ boton.addEventListener("click",function(){
+ alert("existen "+localStorage.length+" elementos grabados");
+ alert("variable 1 --> " + localStorage.getItem("variable1"));
+ alert("variable 2 --> " + localStorage.variable2);
+ alert("variable 3 --> " + localStorage["variable3"]);
+ });
+ });
+</script>
+</head>
+<body>
+<div><p>Ejemplo para recuperar datos en storage</p>
+<p><button id="pulsa">Comprobación</button></p></div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>ajax2-ejemplo06</title>
+<meta charset="UTF-8">
+<script>
+window.addEventListener("load",inicia,false);
+var datos=new FormData();
+function inicia(){
+   var cficheros;
+   cfichero=document.getElementById("ficheros");
+   cfichero.addEventListener("change",comprueba);
+}
+
+function comprueba(e){
+   console.log(e.target.files.length);
+   datos.append("mficheros",e.target.files[0]);
+   console.log(datos.getAll("mficheros"));
+   miajax();
+}
+
+function miajax(){
+   ajax=new XMLHttpRequest();
+   ajax.addEventListener("load",mostrar,false);
+   ajax.open("POST","documento2b.php",true);
+   ajax.send(datos);
+}
+
+function mostrar(e){  
+   var v_resultado=document.getElementById("resultado");
+   v_resultado.innerHTML=e.target.responseText;
+   xml=e.target
+}
+
+</script>
+
+</head>
+<body>
+<h2>Subir un único fichero</h2>
+<section id="peticion">
+<input type="file"   id="ficheros" >
+</section>
+<section id="resultado">
+</section>
+</body>
+</html>
