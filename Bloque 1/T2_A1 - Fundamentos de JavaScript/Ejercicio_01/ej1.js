@@ -128,15 +128,32 @@ console.log('--------------------------------------------');
 
 console.log('--------------- APARTADO 4 -----------------');
 
-function numeroEncadenado(num1, num2) {
-
+function calculaPrecioProducto(nombre = "Producto genérico", precio = 100, impuesto = 21) {
+    if (typeof nombre !== "string") 
+        { console.log(`El primer parámetro con valor: [${nombre}] no es un string, es tipo {${typeof(nombre)}}, reviselo antes de ejecutarlo de nuevo`); }
+    else if (nombre.length <= 0)
+        { console.log(`El primer parámetro con valor: [${nombre}] es un string vacío, reviselo antes de ejecutarlo de nuevo`); }
+    if (typeof precio !== "number" || Number.isNaN(precio)) 
+        { console.log(`El segundo parámetro con valor: [${precio}] no es un numero, es tipo {${typeof(precio) === "number" && isNaN(precio) ? "Not A Number" : typeof(precio)}}, reviselo antes de ejecutarlo de nuevo`); }
+    if (typeof impuesto !== "number" || Number.isNaN(impuesto))  
+        { console.log(`El segundo parámetro con valor: [${impuesto}] no es un numero, es tipo {${typeof(impuesto) === "number" && isNaN(impuesto) ? "Not A Number" : typeof(impuesto)}}, reviselo antes de ejecutarlo de nuevo`); }
+    if (typeof nombre === "string" && (typeof precio === "number" && !Number.isNaN(precio)) && (typeof impuesto === "number" && !Number.isNaN(impuesto)) ) {
+        console.log(`El precio del producto [${String(nombre)}] con IVA del ${impuesto}% es: \n\tPrecio bruto: ${precio.toFixed(2)}\n\tPrecio neto: ${(precio+((precio*impuesto)/100)).toFixed(2)}`);
+    }
 }
 
-numeroEncadenado(3, 3);
-numeroEncadenado(4, 6);
-numeroEncadenado("Marisol", 3);
-numeroEncadenado(true, "Albaricoque");
-numeroEncadenado(NaN, {});
+calculaPrecioProducto("Pepino", 1.89, 4);
+calculaPrecioProducto("Harina", 0.90, 4);
+calculaPrecioProducto("Aceite de girasol", 6.50, 10);
+calculaPrecioProducto("Televisor", 120);
+calculaPrecioProducto("Gasolina");
+calculaPrecioProducto(undefined, 80, 10);
+calculaPrecioProducto();
+calculaPrecioProducto(undefined, 50, undefined);
+calculaPrecioProducto("Libro de mates", undefined, 4);
+calculaPrecioProducto("", null, 4);
+calculaPrecioProducto("Libro de sociales", true, {});
+calculaPrecioProducto([], NaN, '7J');
 
 console.log('--------------------------------------------');
 
@@ -152,15 +169,24 @@ console.log('--------------------------------------------');
 
 console.log('--------------- APARTADO 5 -----------------');
 
-function numeroEncadenado(num1, num2) {
-
+const buscaTexto = (textoCompleto, textoBuscar) => {
+    if (typeof textoCompleto !== "string") 
+        { console.log(`El primer parámetro con valor: [${textoCompleto}] no es un string, es tipo {${typeof(textoCompleto)}}, reviselo antes de ejecutarlo de nuevo`); }
+    if (typeof textoBuscar !== "string") 
+        { console.log(`El segundo parámetro con valor: [${textoBuscar}] no es un string, es tipo {${typeof(textoBuscar)}}, reviselo antes de ejecutarlo de nuevo`); }
+    if (typeof textoCompleto === "string" && textoCompleto.length > 0 && typeof textoBuscar === "string" && textoBuscar.length > 0) {
+        textoCompleto.toLocaleUpperCase().includes(textoBuscar.toLocaleUpperCase()) ?
+            console.log(`El texto [${textoBuscar.toLocaleUpperCase()}] si se encuentra dentro del texto [${textoCompleto.toLocaleUpperCase()}]`) :
+            console.log(`El texto [${textoBuscar.toLocaleUpperCase()}] no se encuentra dentro del texto [${textoCompleto.toLocaleUpperCase()}]`);
+    } 
 }
 
-numeroEncadenado(3, 3);
-numeroEncadenado(4, 6);
-numeroEncadenado("Marisol", 3);
-numeroEncadenado(true, "Albaricoque");
-numeroEncadenado(NaN, {});
+buscaTexto("Santiago de Compostela", "compo");
+buscaTexto("Margaritas a los cerdos", "Rita");
+buscaTexto("Marisol", "Josefina");
+buscaTexto(3, "Albaricoque");
+buscaTexto("Erase una vez", true);
 
 console.log('--------------------------------------------');
+
 

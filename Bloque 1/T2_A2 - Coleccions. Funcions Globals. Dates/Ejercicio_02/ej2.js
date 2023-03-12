@@ -11,6 +11,31 @@
  */
 
 console.log('--------------- APARTADO 1 -----------------');
+const muestraArray = array => array.forEach((element, index) => {
+    console.log(`Elemento en posición *${index+1}* tiene el valor [${element}] de un total de {${array.length}} elementos en el array.`)
+});
+
+let array = [2, 3, 4, 5]
+console.log(`-> Creado Array con ${array.length} elementos.`)
+muestraArray(array)
+array.unshift(0, 1)
+array.push(6, 7)
+console.log(`-> Añadidos 2 elementos al inicio y 2 al final del array.`)
+console.log(`-> Array actual con ${array.length} elementos.`)
+muestraArray(array)
+console.log(`-> Eliminamos las posiciones de la 3 a la 5 del array.`)
+console.log(`-> Array actual con ${array.length} elementos.`)
+array = array.slice(0, 3).concat(array.slice(6))
+muestraArray(array)
+array.splice(array.length-1, 0, 8, 9)
+console.log(`-> Añadidos 2 elementos más entre el último y el penúltimo del array.`)
+console.log(`-> Array actual con ${array.length} elementos.`)
+muestraArray(array)
+console.log(`-> Mostramos el array final de ${array.length} elementos.`)
+console.log(array.join(" ==> "))
+
+
+console.log('--------------------------------------------');
 
 
 /**
@@ -23,6 +48,34 @@ console.log('--------------- APARTADO 1 -----------------');
 
 console.log('--------------- APARTADO 2 -----------------');
 
+function printMedia(nombre, ...notas) {
+    let allNumbers = true;
+    if (typeof nombre !== "string")
+        { console.log(`El nombre del alumno: [${nombre}] no es un string, es tipo {${typeof nombre}}, reviselo antes de ejecutarlo de nuevo`); }
+    else if (nombre.length <= 0)
+        { console.log(`El nombre del alumno no puede ser un string vacío: [${nombre}], reviselo antes de ejecutarlo de nuevo`); }
+    if (!Array.isArray(notas))
+        { console.log(`Las notas del alumno son incorrectas, reviselo antes de ejecutarlo de nuevo`); }
+    else if (notas.length <= 0)
+        { console.log(`No ha indicado ninguna nota, reviselo antes de ejecutarlo de nuevo`); }
+    else 
+        { notas.forEach(element => { 
+            if (typeof element !== "number") { allNumbers = false; console.log(`Valor incorrecto en las notas: [${element}] => [No es numérico]`) }
+        })}
+    if ((typeof nombre === "string" && nombre.length > 0) && (Array.isArray(notas) && notas.length > 0) && allNumbers) {
+        console.log(`El\\la alumn@ ${nombre} tiene las siguientes notas: [${notas.join(' - ')}] y una nota media final de: {${((notas.reduce((accumulator, currentValue) => accumulator + currentValue)) / notas.length).toFixed(2)}}`);
+    }
+}
+
+printMedia("Pepe", 4.25, 6, 8.5, 9)
+printMedia("Juan", 6, 7, 9.5, 9)
+printMedia("Rosa", 2, 5, 5, 7, 6)
+printMedia("Pepe")
+printMedia("Pepe", 4.25, 6, true, '7J', 9)
+printMedia(undefined, 4.25, 6, 8.5, 9)
+printMedia('', 4.25, 6, 8.5, 9)
+
+console.log('--------------------------------------------');
 
 /**
  * Apartado 3
@@ -33,6 +86,10 @@ console.log('--------------- APARTADO 2 -----------------');
 console.log('--------------- APARTADO 3 -----------------');
 
 
+
+
+console.log('--------------------------------------------');
+
 /**
  * Apartado 4
  * Crea un array de números de más de una cifra. Mapea ese array en otro que sea la suma de las cifras de cada número. No puedes usar bucles.
@@ -42,6 +99,10 @@ console.log('--------------- APARTADO 3 -----------------');
 
 console.log('--------------- APARTADO 4 -----------------');
 
+
+
+
+console.log('--------------------------------------------');
 /**
  * Apartado 5
  * A partir del siguiente array que contiene productos con mensajes sobre los mismos:
@@ -63,6 +124,10 @@ let mensajes = [
     ['Mesa', 'ERROR: El stock no puede ser negativo']
 ];
 
+
+
+
+console.log('--------------------------------------------');
 
 /**
  * Apartado 6
