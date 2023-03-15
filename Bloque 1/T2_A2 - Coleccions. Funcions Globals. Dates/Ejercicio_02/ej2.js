@@ -85,8 +85,12 @@ console.log('--------------------------------------------');
 
 console.log('--------------- APARTADO 3 -----------------');
 
-
-
+let cadenas = ["Juan", "Flauta", "Flor", "Gorra", "Perro", "Margarita", "Sol"];
+console.log(cadenas);
+cadenas.sort(); // Este solo compara y ordena por la 1ª letra, sin tener el cuenta el tamaño
+console.log(cadenas);
+cadenas.sort((string1, string2) => string1.length - string2.length); // este ordena comparando el tamaño de la palabra según su longitud
+console.log(cadenas);
 
 console.log('--------------------------------------------');
 
@@ -99,7 +103,9 @@ console.log('--------------------------------------------');
 
 console.log('--------------- APARTADO 4 -----------------');
 
-
+let numeros = [20, 16, 100, 51, 28, 92]; 
+numeros.forEach((number, index) => numeros[index] = Array.from(String(number)).reduce((total, num)  => total + Number(num),  0))
+console.log(numeros);
 
 
 console.log('--------------------------------------------');
@@ -124,8 +130,16 @@ let mensajes = [
     ['Mesa', 'ERROR: El stock no puede ser negativo']
 ];
 
+let productos = new Map();
+//console.log(mensajes[0][1])
+//mensajes.map((mensaje, index) => console.log(mensaje[index]))
 
-
+mensajes.forEach(mensaje => {
+    if (mensaje[1].startsWith("ERROR")) {
+        productos.set(mensaje[0], mensaje[1])
+    }
+})
+console.log(productos)
 
 console.log('--------------------------------------------');
 
@@ -140,6 +154,24 @@ console.log('--------------------------------------------');
 
 console.log('--------------- APARTADO 6 -----------------');
 
+function calculaTriangulo(ladoA, ladoB, angulo) {
+    if (typeof ladoA !== "number")
+        { console.log(`El primer lado: [${ladoA}] no es un número, es tipo {${typeof ladoA}}, reviselo antes de ejecutarlo de nuevo`); }
+    if (typeof ladoB !== "number")
+        { console.log(`El segundo lado: [${ladoB}] no es un número, es tipo {${typeof ladoB}}, reviselo antes de ejecutarlo de nuevo`); }
+    if (typeof angulo !== "number")
+        { console.log(`El ángulo: [${angulo}] no es un número, es tipo {${typeof angulo}}, reviselo antes de ejecutarlo de nuevo`); }
+    if (typeof ladoA === "number" && typeof ladoB === "number" && typeof angulo === "number") {
+        angulo = ((angulo * Math.PI) / 180);
+        let triangulo = ((1/2) * (ladoA * ladoB * Math.sin(angulo)));
+        console.log(`El area de su triángulo con lados A: ${ladoA} cm y B: ${ladoB} cm y un ángulo de ${((angulo * 180) / Math.PI)} grados es de: [${triangulo}] centimetros`)
+    }
+}
+
+calculaTriangulo(3, 4, 90);
+
+console.log('--------------------------------------------');
+
 
 /**
  * Apartado 7
@@ -153,4 +185,6 @@ console.log('--------------- APARTADO 6 -----------------');
  */
 
 console.log('--------------- APARTADO 7 -----------------');
+
+console.log('--------------------------------------------');
 
