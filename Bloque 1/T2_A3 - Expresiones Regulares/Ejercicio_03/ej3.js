@@ -11,6 +11,7 @@ function checkNumero(regex, text) {
         { console.log(`OK  -> La expresión ${regex} es correcta: ${text}`); }
     else 
         { console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}`); }  
+    console.log();
 }
 regex = /^\d+[,.]?\d*$/;
 
@@ -43,6 +44,7 @@ function checkDNI(regex, text) {
     } else { 
         console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}`); 
     }  
+    console.log();
 }
 regex = /^\d{8}[A-Z]{1}$/;
 
@@ -66,6 +68,7 @@ function checkMatricula(regex, text) {
         { console.log(`OK  -> La expresión ${regex} es correcta: ${text}`); }
     else 
         { console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}`); }  
+    console.log();
 }
 regex = /^[0-9]{4}[A-Z]{3}$/;
 
@@ -90,6 +93,7 @@ function checkTwitter(regex, text) {
         { console.log(`OK  -> La expresión ${regex} es correcta: ${text}`); }
     else 
         { console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}`); }  
+    console.log();
 }
 regex = /^[@][\w-_]+$/;
 
@@ -117,6 +121,7 @@ function checkFecha(regex, text) {
     }
     else 
         { console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}`); }  
+    console.log();
 }
 regex = /\d{1,2}\/\d{1,2}\/\d{4}/g;
 
@@ -130,44 +135,55 @@ checkFecha(regex, 'El 01/2/2024 abandono, el 2/02/2024 doy de baja el gym y para
 
 console.log('-----------------------------------------------')
 
-
 // • Crear una expresión regular para la validación de direcciones de correo 
 // electrónico. Para simplificar, los valores anteriores a @ pueden contener 
 // cualquier carácter alfanumérico, y los caracteres “.” y “-”, mientras que los 
 // valores después de la @ pueden contener caracteres alfanuméricos, y el tipo 
 // de dominio tendrá una longitud de 2 o 3 caracteres. 
-console.log('---------- Cadena = número entero -------------')
-regex = /\d+[,.]?\d*/;
+console.log('---------- Cadena = correo electrónico -------------')
+function checkEmail(regex, text) {
+    if (regex.test(String(text))) {
+        console.log(`OK  -> La expresión ${regex} es correcta: ${text}`);
+    }
+    else 
+        { console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}`); }  
+    console.log();
+}
+regex = /^[\w.-]*\@[a-z]*.[a-z]{2,3}$/;
 
-checkRegex(regex, 2)
-checkRegex(regex, 20)
-checkRegex(regex, 2.12)
-checkRegex(regex, 21.5)
-checkRegex(regex, 400.5)
-checkRegex(regex, 2.432)
-checkRegex(regex, '2')
-checkRegex(regex, '2.12')
-checkRegex(regex, '122.12345')
-checkRegex(regex, 'A')
+checkEmail(regex, 'tonet.sellardo@gmail.com')
+checkEmail(regex, 'tonet_12@hotmail.com')
+checkEmail(regex, 'foo_33@demo.net')
+checkEmail(regex, 'bar-ba@test.co')
+checkEmail(regex, 'bar.ba@test.co.uk')
+checkEmail(regex, 'tonet.sella@gm41l.com')
 
 console.log('-----------------------------------------------')
 
 
 // • Crear una expresión regular que elimine las etiquetas potencialmente 
 // peligrosas (<script>...</script>) y todo su contenido de una cadena HTML. 
-console.log('---------- Cadena = número entero -------------')
-regex = /\d+[,.]?\d*/;
+console.log('---------- Cadena = etiquetas html -------------')
+function checkHTML(regex, text) {
+    if (regex.test(String(text))) {
+        console.log(`OK  -> La expresión ${regex} es correcta: ${text}`);
+        console.log(`OK  -> La coincidencia está en [${text.match(regex)}]`);
+        console.log(`OK  -> Es resultado final controlado sería: [${text.replace(text.match(regex), '')}]`);
+    }
+    else 
+        { console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}, el texto no incluye esa etiqueta`); }  
+    console.log();
+}
+regex = /<script>[a-zA-Z0-9 .-_"'`{}()<>=:*/%]*<\/script>/g;
 
-checkRegex(regex, 2)
-checkRegex(regex, 20)
-checkRegex(regex, 2.12)
-checkRegex(regex, 21.5)
-checkRegex(regex, 400.5)
-checkRegex(regex, 2.432)
-checkRegex(regex, '2')
-checkRegex(regex, '2.12')
-checkRegex(regex, '122.12345')
-checkRegex(regex, 'A')
+checkHTML(regex, '<script>...</script>')
+checkHTML(regex, '<script>function popup() {alert("Hola gente")}</script>')
+checkHTML(regex, '<h1>Esto es un título</h1>')
+checkHTML(regex, '<h1><script>...</script></h1>')
+checkHTML(regex, '<div>Aqui hay texto <script>function </script> </div>')
+checkHTML(regex, '<div>Aqui hay texto<script>function popup() {alert("Hola gente")}</script></div>')
+checkHTML(regex, '<div>Aqui hay texto<script>function popup() {alert("Hola gente")}<script></div>')
+checkHTML(regex, '<div>Aqui hay texto<script>function popup() {alert("Hola gente")}</div>')
 
 console.log('-----------------------------------------------')
 
@@ -175,21 +191,87 @@ console.log('-----------------------------------------------')
 // • Crea una expresión regular que dado un número de cuenta IBAN en formato 
 // ESXXXXXXXXXXXXXXXXXXXXXX nos lo devuelva en porciones de 4 
 // dígitos separado por un “-“.  
-console.log('---------- Cadena = número entero -------------')
-regex = /\d+[,.]?\d*/;
+console.log('---------- Cadena = cuenta IBAN -------------')
+function checkIBAN(regex, text) {
+    if (regex.test(String(text))) {
+        console.log(`OK  -> La expresión ${regex} es correcta: ${text}`);
+        let iban = ''
+        for (let i = 1, j = 1; i <= text.length; i++) {
+            iban += text.charAt(i-1);
+            if (i === (4 * j) && i !== text.length) { j++; iban += '-'; }
+        }
+        console.log(`La expresión correcta del IBAN de la cuenta sería: [${iban}]`);
+    }
+    else 
+        { console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}`); }  
+    console.log();
+}
+regex = /^ES[0-9]{22}$/;
 
-checkRegex(regex, 2)
-checkRegex(regex, 20)
-checkRegex(regex, 2.12)
-checkRegex(regex, 21.5)
-checkRegex(regex, 400.5)
-checkRegex(regex, 2.432)
-checkRegex(regex, '2')
-checkRegex(regex, '2.12')
-checkRegex(regex, '122.12345')
-checkRegex(regex, 'A')
+checkIBAN(regex, 'ES1212341234123412341234')
+checkIBAN(regex, 'ES1212345678901234567890')
+checkIBAN(regex, 'ESXXXXXXXXXXXXXXXXXXXXXX')
+checkIBAN(regex, 'AS1212341234123412341234')
+checkIBAN(regex, 'ES121234123412341234123456')
+checkIBAN(regex, 'ES12123412341234123412')
+checkIBAN(regex, 'ESJK12341234123412341234')
 
 console.log('-----------------------------------------------')
 
 
 // Ej 2 – Genera dos ejercicios donde te parezca interesante el uso de expresiones regulares. 
+console.log('---------- Cadena = Teléfono movil -------------')
+function checkMobil(regex, text) {
+    if (regex.test(String(text))) {
+        console.log(`OK  -> La expresión ${regex} es correcta: ${text}`);
+    }
+    else 
+        { console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}`); }  
+    console.log();
+}
+// regex = /^[+]?[3]?[4]?[6-7][0-9]{2}[.-]?[0-9]{2,3}[.-]?[0-9]{2,3}[.-]?[0-9]?[0-9]?/;
+regex = /^[+]?[3]?[4]?[6-7]{1}[0-9]{2}[.-]?[0-9]{2}[.-]?[0-9][.-]?[0-9][.-]?[0-9]{2}$/;
+
+checkMobil(regex, '638533882')
+checkMobil(regex, '738533882')
+checkMobil(regex, '638.533.882')
+checkMobil(regex, '638-533-882')
+checkMobil(regex, '638.53.38.82')
+checkMobil(regex, '738.533.882')
+checkMobil(regex, '738-533-882')
+checkMobil(regex, '738.53.38.82')
+checkMobil(regex, '638 533 882')
+checkMobil(regex, '738 533 882')
+checkMobil(regex, '838533882')
+checkMobil(regex, '+34638533882')
+checkMobil(regex, '+44638533882')
+checkMobil(regex, '+34838533882')
+checkMobil(regex, '6385338827')
+checkMobil(regex, '63853388')
+
+console.log('-----------------------------------------------')
+
+console.log('---------- Cadena = URL WEB -------------')
+function checkURL(regex, text) {
+    if (regex.test(String(text))) {
+        console.log(`OK  -> La expresión ${regex} es correcta: ${text}`);
+    }
+    else 
+        { console.log(`BAD -> La expresión ${regex} es incorrecta: ${text}`); }  
+    console.log();
+}
+regex = /^(http[s]?:[\/]{2})?([w]*\.)?[a-z-_\.]*[\.][a-z]{2,3}([\/][.?a-zA-Z0-9\/=_-]*)?$/;
+
+checkURL(regex, 'http://foo.co.uk/')
+checkURL(regex, 'www.demo.com')
+checkURL(regex, 'http://www.github.com')
+checkURL(regex, 'https://github.com')
+checkURL(regex, 'https://marketplace.visualstudio.com/items?itemName=chrmarti.regex')
+checkURL(regex, 'https://github.com/chrmarti/vscode-regex')
+checkURL(regex, 'httpj://github.com/chrmarti/vscode-regex')
+checkURL(regex, 'https://github.coma')
+checkURL(regex, 'foo_33@demo.net')
+checkURL(regex, 'bar-ba@test.co')
+checkURL(regex, 'https://git hub.com')
+
+console.log('-----------------------------------------------')
