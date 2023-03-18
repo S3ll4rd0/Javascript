@@ -129,17 +129,22 @@ let mensajes = [
     ['Silla', 'Se ha borrado el producto de la base de datos'],
     ['Mesa', 'ERROR: El stock no puede ser negativo']
 ];
-
 let productos = new Map();
-//console.log(mensajes[0][1])
-//mensajes.map((mensaje, index) => console.log(mensaje[index]))
 
-mensajes.forEach(mensaje => {
-    if (mensaje[1].startsWith("ERROR")) {
-        productos.set(mensaje[0], mensaje[1])
-    }
+let indices = []
+mensajes.forEach((value) => { if (!indices.includes(value[0])) { indices.push(value[0]) } })
+
+let messages = []
+indices.forEach(product => {
+    mensajes.forEach((message) => {
+        if (product === message[0] && message[1].startsWith('ERROR')) 
+            { messages.push(message[1]) }
+    })
+    productos.set(product, messages)
+    messages = [];
 })
-console.log(productos)
+
+productos.forEach((value, key) => { console.log(`Producto: [${key}]: Errores (${value.length}) => {${value}}`); })
 
 console.log('--------------------------------------------');
 
@@ -164,11 +169,14 @@ function calculaTriangulo(ladoA, ladoB, angulo) {
     if (typeof ladoA === "number" && typeof ladoB === "number" && typeof angulo === "number") {
         angulo = ((angulo * Math.PI) / 180);
         let triangulo = ((1/2) * (ladoA * ladoB * Math.sin(angulo)));
-        console.log(`El area de su triángulo con lados A: ${ladoA} cm y B: ${ladoB} cm y un ángulo de ${((angulo * 180) / Math.PI)} grados es de: [${triangulo}] centimetros`)
+        console.log(`El area de su triángulo con lados A: {${ladoA}} cm y B: {${ladoB}} cm y un ángulo de {${((angulo * 180) / Math.PI).toFixed(1)}} grados es de: [${triangulo.toFixed(2)}] centimetros`)
     }
 }
 
 calculaTriangulo(3, 4, 90);
+calculaTriangulo(10, 7, 45);
+calculaTriangulo(5, 5, 60);
+calculaTriangulo(4.5, 4.5, 45);
 
 console.log('--------------------------------------------');
 
@@ -185,6 +193,27 @@ console.log('--------------------------------------------');
  */
 
 console.log('--------------- APARTADO 7 -----------------');
+function formateaFecha(fecha) {
+    let regex = /\d{4}-\d{1,2}-\d{1,2}/;
+    let dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
+    let meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+
+    if (typeof fecha === "string") {
+        console.log(`OK  -> El parámetro: [${fecha}] es de tipo correcto: {${typeof fecha}}`);
+        if (regex.test(fecha)) {
+            console.log(`OK  -> El parámetro: [${fecha}] tiene el formato correcto {AAAA-MM-DD}`);
+            let date = new Date(fecha.split('-'));
+            console.log(`OK  -> El formato final sería: [${dias[date.getDay()]}, ${date.getDate()} de ${meses[date.getMonth()]} de ${date.getFullYear()}]`);
+        }
+        else { console.log(`BAD -> El parámetro: ${fecha} no coincide con el formato esperado`); }
+    }
+    else { console.log(`BAD -> El parámetro: [${fecha}] no es un string, es tipo {${typeof fecha}}, reviselo antes de ejecutarlo de nuevo`); }
+    console.log();
+}
+
+formateaFecha('2022-09-15')
+formateaFecha('2019-02-28')
+formateaFecha('2023-03-15')
+
 
 console.log('--------------------------------------------');
-
