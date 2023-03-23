@@ -85,10 +85,13 @@ console.log('--------------------------------------------');
 
 console.log('--------------- APARTADO 3 -----------------');
 
+console.log('Array original: ');
 let cadenas = ["Juan", "Flauta", "Flor", "Gorra", "Perro", "Margarita", "Sol"];
 console.log(cadenas);
 cadenas.sort(); // Este solo compara y ordena por la 1ª letra, sin tener el cuenta el tamaño
+console.log('Este solo compara y ordena por la 1ª letra, sin tener el cuenta el tamaño: ');
 console.log(cadenas);
+console.log('Este ordena comparando el tamaño de la palabra según su longitud: ');
 cadenas.sort((string1, string2) => string1.length - string2.length); // este ordena comparando el tamaño de la palabra según su longitud
 console.log(cadenas);
 
@@ -103,8 +106,11 @@ console.log('--------------------------------------------');
 
 console.log('--------------- APARTADO 4 -----------------');
 
+console.log('Array original: ');
 let numeros = [20, 16, 100, 51, 28, 92]; 
+console.log(numeros);
 numeros.forEach((number, index) => numeros[index] = Array.from(String(number)).reduce((total, num)  => total + Number(num),  0))
+console.log('Array transformado: ');
 console.log(numeros);
 
 
@@ -213,6 +219,7 @@ function formateaFecha(fecha) {
 
 formateaFecha('2022-09-15')
 formateaFecha('2019-02-28')
+formateaFecha('2023-03-15')
 formateaFecha('2023-03-15')
 
 

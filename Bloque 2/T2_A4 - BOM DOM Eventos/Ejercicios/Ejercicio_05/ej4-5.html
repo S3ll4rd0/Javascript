@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ejercicio bloque 2</title>
+    <meta charset="UTF-8">
+    <style>
+        p {
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body onload="originalSizes()">
+    <div>
+        <h1>Ejercicio bloque 2</h1>
+        <h2>Ejercicio 05</h2>
+        <p id="parrafo1">
+            <strong>Parrafo1: </strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut viverra turpis. Duis tincidunt rutrum ullamcorper. Nulla facilisi. Proin id elit nibh. Suspendisse sit amet lectus a libero cursus suscipit sit amet a lorem. Fusce vitae massa eu quam tincidunt porttitor. Duis sagittis commodo felis ac aliquet. Nam dignissim mi ac malesuada lobortis. Proin pellentesque ultrices sem, eget lobortis erat elementum eu. Donec ornare tellus eget facilisis iaculis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent vestibulum turpis felis, ut accumsan turpis dignissim et. Cras vel gravida dolor. Nulla viverra risus ac lorem vestibulum venenatis. Praesent interdum a quam vel consequat. Donec semper eu est et euismod.
+        </p>
+        <p id="parrafo2">
+            <strong>Parrafo2: </strong> Vestibulum at justo eu augue interdum varius. Maecenas tincidunt rutrum eros ut mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus commodo rhoncus ante eget convallis. Vestibulum vehicula ante metus, at viverra lectus malesuada in. In tempus varius tortor, volutpat sollicitudin est faucibus ac. Pellentesque sit amet ante mi. Aenean vestibulum posuere massa, fringilla facilisis libero luctus ac. Nunc iaculis magna id arcu fringilla rhoncus. Cras non orci turpis. Morbi tempor eu arcu sed tincidunt. Mauris eget semper nisi. Nullam gravida elementum nisl eu tristique. Nulla id orci felis.
+        </p>
+        <p id="parrafo3">
+            <strong>Parrafo3: </strong> Cras vel leo semper, pretium justo a, placerat velit. Pellentesque cursus venenatis libero, ut fermentum elit luctus at. Etiam eu placerat dolor. Donec ex nisi, tincidunt eu ornare efficitur, interdum at dolor. Vestibulum malesuada facilisis velit, ac euismod nunc tempus ac. Aenean ultricies vehicula nunc ac aliquam. Sed vehicula mollis odio, id elementum quam faucibus non. Phasellus placerat porttitor odio a pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec viverra lorem purus, non dictum mi varius ut. Fusce neque lacus, gravida quis elit vel, sollicitudin sollicitudin lorem. Mauris iaculis pretium lorem, non convallis arcu vestibulum id. Nulla turpis dui, tempor eget quam eget, porta ullamcorper ligula. Morbi mattis neque sit amet sodales rutrum. Sed a ipsum non purus rutrum malesuada sit amet id dolor. Quisque ullamcorper mi risus, a accumsan dui blandit in.
+        </p>
+        <form>
+            <p>
+                <label for="parrafo">Parrafo a modificar: </label> 
+                <input type="text" pattern="parrafo(1|2|3)" id="parrafo" maxlength="8" required>
+                <input type="button" value="Agrandar" onclick="agrandar()">
+                <input type="button" value="Reducir" onclick="reducir()">
+                <input type="button" value="Original" onclick="original()">
+                <br>
+                <small>Introduzca el nombre del parrafo en formato: parrafo1, parrafo2, parrafo3</small>
+            </p>
+        </form>
+    </div>
+    <script src="./ej4-5.js"></script>
+</body>
+
+</html>
