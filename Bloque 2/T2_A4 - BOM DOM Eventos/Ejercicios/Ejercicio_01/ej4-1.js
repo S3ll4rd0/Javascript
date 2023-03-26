@@ -35,8 +35,6 @@ let dni = document.getElementById("dni");
 let fecha = document.getElementById("fecha");
 let codPostal = document.getElementById("codPostal");
 let pais = document.getElementById("pais");
-let genero = document.getElementById("");
-let preferencias = document.getElementById("");
 let phone = document.getElementById("phone");
 let email = document.getElementById("email");
 let pass = document.getElementById("pass");
@@ -73,12 +71,11 @@ const checkInputs = (id, check) => {
             counter++;
         }
     });
-    if (counter === boolInputs.length && flag) {
-        console.log('Activamos boton');
+    if (counter === boolInputs.size && flag) {
         document.getElementById("enviar").disabled = false;
+    } else {
+        document.getElementById("enviar").disabled = true;
     }
-    console.log(counter);
-    console.log(boolInputs);
 }
 
 let formVacioKeyPress = function() { 
@@ -350,7 +347,7 @@ let fecha_inputKeyPress = function() {
         let dateInput = new Date(input)
         if (dateNow < dateInput) {
             setInvalidAttribute(this)
-            showErrorMessage(errorMsg, "La fecha de nacimiento no puede ser superior a la fecha actual. ");
+            showErrorMessage(errorMsg, "La fecha de nacimiento no puede ser posterior a la fecha actual. ");
             checkInputs(this.id, false)
         }
         else {
@@ -491,15 +488,108 @@ codPostal.addEventListener('blur', codPostal_inputBlur)
 //#endregion
 
 //#region País
+// Como este select ya elige un valor por defecto al iniciar, si no se cambia, este será el valor escogido.
+checkInputs("pais", true);
 
+// Si el usuario decide cambiar el elemento seleccionado, como no puede seleccionar un elemento erroneo, 
+// este será actualizado pero visualmente se le hará saber que su elección ha sido procesada y correcta.
+pais.addEventListener('change', function() { 
+    successMsg = document.getElementById(`${this.id}S`);
+    checkInputs(this.id, true);
+    showSuccessMessage(successMsg, "OK")
+    setValidAttribute(pais)
+});
 //#endregion 
 
 //#region Genero 
+setInvalidAttribute(document.getElementById("generoField"))
+showErrorMessage(document.getElementById(`generoE`), "Debe seleccionar una opción de este campo");
+let generoEscogido;
+
+document.getElementById("genH").addEventListener('change', function() { 
+    setValidAttribute(document.getElementById("generoField"));
+    deleteErrorMessage(document.getElementById(`generoE`))
+    showSuccessMessage(document.getElementById(`generoS`), `Ha escogido ${genH.value}`)
+    checkInputs("genero", true);
+    generoEscogido = genH.value;
+});
+
+document.getElementById("genM").addEventListener('change', function() { 
+    setValidAttribute(document.getElementById("generoField"));
+    deleteErrorMessage(document.getElementById(`generoE`))
+    showSuccessMessage(document.getElementById(`generoS`), `Ha escogido ${genM.value}`)
+    checkInputs("genero", true);
+    generoEscogido = genM.value;
+});
+
+document.getElementById("genU").addEventListener('change', function() { 
+    setValidAttribute(document.getElementById("generoField"));
+    deleteErrorMessage(document.getElementById(`generoE`))
+    showSuccessMessage(document.getElementById(`generoS`), `Ha escogido ${genU.value}`)
+    checkInputs("genero", true);
+    generoEscogido = genU.value;
+});
 
 //#endregion
 
 //#region Preferencias 
+setInvalidAttribute(document.getElementById("preferenciasField"))
+showErrorMessage(document.getElementById(`preferenciasE`), "Debe seleccionar al menos una opción de este campo");
+let colores = []
 
+document.getElementById("colorRojo").addEventListener('change', function() { 
+    if (! document.getElementById("colorRojo").checked && ! document.getElementById("colorAzul").checked && ! document.getElementById("colorVerde").checked) {
+        setInvalidAttribute(document.getElementById("preferenciasField"));
+        deleteSuccessMessage(document.getElementById(`preferenciasS`))
+        showErrorMessage(document.getElementById(`preferenciasE`), "No puede dejar ninguna opción sin seleccionar");
+        checkInputs("preferencias", false);
+        colores = []
+    } else {
+        setValidAttribute(document.getElementById("preferenciasField"));
+        deleteErrorMessage(document.getElementById(`preferenciasE`))
+        showSuccessMessage(document.getElementById(`preferenciasS`), "Su selección ha sido registrada")
+        checkInputs("preferencias", true);
+        if (! colores.includes(document.getElementById("colorRojo").value)) {
+            colores.push(document.getElementById("colorRojo").value);
+        }
+    }
+});
+
+document.getElementById("colorAzul").addEventListener('change', function() { 
+    if (! document.getElementById("colorRojo").checked && ! document.getElementById("colorAzul").checked && ! document.getElementById("colorVerde").checked) {
+        setInvalidAttribute(document.getElementById("preferenciasField"));
+        deleteSuccessMessage(document.getElementById(`preferenciasS`))
+        showErrorMessage(document.getElementById(`preferenciasE`), "No puede dejar ninguna opción sin seleccionar");
+        checkInputs("preferencias", false);
+        colores = []
+    } else {
+        setValidAttribute(document.getElementById("preferenciasField"));
+        deleteErrorMessage(document.getElementById(`preferenciasE`))
+        showSuccessMessage(document.getElementById(`preferenciasS`), "Su selección ha sido registrada")
+        checkInputs("preferencias", true);
+        if (! colores.includes(document.getElementById("colorAzul").value)) {
+            colores.push(document.getElementById("colorAzul").value);
+        }
+    }
+});
+
+document.getElementById("colorVerde").addEventListener('change', function() { 
+    if (! document.getElementById("colorRojo").checked && ! document.getElementById("colorAzul").checked && ! document.getElementById("colorVerde").checked) {
+        setInvalidAttribute(document.getElementById("preferenciasField"));
+        deleteSuccessMessage(document.getElementById(`preferenciasS`))
+        showErrorMessage(document.getElementById(`preferenciasE`), "No puede dejar ninguna opción sin seleccionar");
+        checkInputs("preferencias", false);
+        colores = []
+    } else {
+        setValidAttribute(document.getElementById("preferenciasField"));
+        deleteErrorMessage(document.getElementById(`preferenciasE`))
+        showSuccessMessage(document.getElementById(`preferenciasS`), "Su selección ha sido registrada")
+        checkInputs("preferencias", true);
+        if (! colores.includes(document.getElementById("colorVerde").value)) {
+            colores.push(document.getElementById("colorVerde").value);
+        }
+    }
+});
 //#endregion
 
 //#region Número Teléfono 
@@ -531,16 +621,23 @@ let phone_inputKeyPress = function() {
                 checkInputs(this.id, false)
             }
             else if (input.length == 9) {
-                if (regex.test(input)) {
-                    setValidAttribute(this)
-                    deleteErrorMessage(errorMsg)
-                    checkInputs(this.id, true)
-                    showSuccessMessage(successMsg, "OK")
+                if (input.charAt(0) != '6' || input.charAt(0) != '7') {
+                    setInvalidAttribute(this)
+                    showErrorMessage(errorMsg, "Los teléfonos en españa solamente empiezan por 6 o 7, reviselo para continuar.");
+                    checkInputs(this.id, false)
                 }
                 else {
-                    setInvalidAttribute(this)
-                    showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
-                    checkInputs(this.id, false)
+                    if (regex.test(input)) {
+                        setValidAttribute(this)
+                        deleteErrorMessage(errorMsg)
+                        checkInputs(this.id, true)
+                        showSuccessMessage(successMsg, "OK")
+                    }
+                    else {
+                        setInvalidAttribute(this)
+                        showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar.");
+                        checkInputs(this.id, false)
+                    }
                 }
             }
         }
@@ -575,16 +672,23 @@ let phone_inputBlur = function() {
                 checkInputs(this.id, false)
             }
             else if (input.length == 9) {
-                if (regex.test(input)) {
-                    setValidAttribute(this)
-                    deleteErrorMessage(errorMsg)
-                    checkInputs(this.id, true)
-                    showSuccessMessage(successMsg, "OK")
+                if (input.charAt(0) != '6' && input.charAt(0) != '7') {
+                    setInvalidAttribute(this)
+                    showErrorMessage(errorMsg, "Los teléfonos en españa solamente empiezan por 6 o 7, reviselo para continuar.");
+                    checkInputs(this.id, false)
                 }
                 else {
-                    setInvalidAttribute(this)
-                    showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
-                    checkInputs(this.id, false)
+                    if (regex.test(input)) {
+                        setValidAttribute(this)
+                        deleteErrorMessage(errorMsg)
+                        checkInputs(this.id, true)
+                        showSuccessMessage(successMsg, "OK")
+                    }
+                    else {
+                        setInvalidAttribute(this)
+                        showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar.");
+                        checkInputs(this.id, false)
+                    }
                 }
             }
         }
@@ -802,12 +906,12 @@ let password_inputKeyPress = function() {
         deleteSuccessMessage(successMsg)
         dropInvalidAttribute(this);
 
-        if (pass === input) {
+        if (pass.value === input) {
             setValidAttribute(this)
             checkInputs(this.id, true)
             showSuccessMessage(successMsg, "OK")
         } 
-        else if (pass.length == 0) {
+        else if (pass.value.length == 0) {
             setInvalidAttribute(this)
             showErrorMessage(errorMsg, "Primero introduzca una contraseña en el formulario superior a este.");
             checkInputs(this.id, false)
@@ -831,14 +935,14 @@ let password_inputBlur = function() {
         deleteSuccessMessage(successMsg)
         dropInvalidAttribute(this);
 
-        if (pass === input) {
+        if (pass.value === input) {
             setValidAttribute(this)
             checkInputs(this.id, true)
             showSuccessMessage(successMsg, "OK")
         } 
-        else if (pass.length == 0) {
+        else if (pass.value.length == 0) {
             setInvalidAttribute(this)
-            showErrorMessage(errorMsg, "Primero introduzca una contraseña en el formulario superior a este.");
+            showErrorMessage(errorMsg, "Primero introduzca una contraseña en el formulario de contraseña superior a este.");
             checkInputs(this.id, false)
         } 
         else {
@@ -854,3 +958,108 @@ password.addEventListener('blur', formVacioBlur);
 password.addEventListener('keypress', password_inputKeyPress); 
 password.addEventListener('blur', password_inputBlur)
 //#endregion
+
+function borrar_formulario() {
+    nombre.innerText = "";
+    setInvalidAttribute(nombre);
+    deleteSuccessMessage(document.getElementById("nombreS"));
+    showErrorMessage(document.getElementById("nombreE"), "No puede dejar el campo sin rellenar");
+
+    direccion.innerText = "";
+    setInvalidAttribute(direccion);
+    deleteSuccessMessage(document.getElementById("direccionS"));
+    showErrorMessage(document.getElementById("direccionE"), "No puede dejar el campo sin rellenar");
+
+    dni.innerText = "";
+    setInvalidAttribute(dni);
+    deleteSuccessMessage(document.getElementById("dniS"));
+    showErrorMessage(document.getElementById("dniE"), "No puede dejar el campo sin rellenar");
+
+    fecha.innerText = "";
+    setInvalidAttribute(fecha);
+    deleteSuccessMessage(document.getElementById("fechaS"));
+    showErrorMessage(document.getElementById("fechaE"), "No puede dejar el campo sin rellenar");
+
+    codPostal.innerText = "";
+    setInvalidAttribute(codPostal);
+    deleteSuccessMessage(document.getElementById("codPostalS"));
+    showErrorMessage(document.getElementById("codPostalE"), "No puede dejar el campo sin rellenar");
+
+    phone.innerText = "";
+    setInvalidAttribute(phone);
+    deleteSuccessMessage(document.getElementById("phoneS"));
+    showErrorMessage(document.getElementById("phoneE"), "No puede dejar el campo sin rellenar");
+
+    email.innerText = "";
+    setInvalidAttribute(email);
+    deleteSuccessMessage(document.getElementById("emailS"));
+    showErrorMessage(document.getElementById("emailE"), "No puede dejar el campo sin rellenar");
+
+    pass.innerText = "";
+    setInvalidAttribute(pass);
+    deleteSuccessMessage(document.getElementById("passS"));
+    showErrorMessage(document.getElementById("passE"), "No puede dejar el campo sin rellenar");
+
+    password.innerText = "";
+    setInvalidAttribute(password);
+    deleteSuccessMessage(document.getElementById("passwordS"));
+    showErrorMessage(document.getElementById("passwordE"), "No puede dejar el campo sin rellenar");
+
+    document.getElementById("genH").checked = false;
+    document.getElementById("genM").checked = false;
+    document.getElementById("genU").checked = false;
+    generoEscogido = "";
+    setInvalidAttribute(document.getElementById("generoField"));
+    deleteSuccessMessage(document.getElementById(`generoS`))
+    showErrorMessage(document.getElementById(`generoE`), "No puede dejar el campo sin seleccionar una opción")
+
+    document.getElementById("colorRojo").checked = false;
+    document.getElementById("colorAzul").checked = false;
+    document.getElementById("colorVerde").checked = false;
+    colores = []
+    setInvalidAttribute(document.getElementById("preferenciasField"));
+    deleteSuccessMessage(document.getElementById(`preferenciasS`))
+    showErrorMessage(document.getElementById(`preferenciasE`), "No puede dejar ninguna opción sin seleccionar");
+
+    document.getElementById("enviar").disabled = true;
+    boolInputs.forEach((value) => value = false);
+    checkInputs("pais", true);
+}
+
+function enviar_formulario() {
+    document.getElementsByTagName("body")[0].removeChild(document.getElementById("formulario"));
+    // document.getElementById("formulario").style.visibility = 'hidden';
+    document.getElementById("respuestas").style.visibility = 'visible';
+    
+    document.getElementById("nombreR").innerText = `Como nombre, usted ha indicado: [${nombre.value}]`;
+    document.getElementById("direccionR").innerText = `Como dirección, usted ha indicado: [${direccion.value}]`;
+    document.getElementById("dniR").innerText = `Como DNI, usted ha indicado: [${dni.value}]`;
+    document.getElementById("fechaR").innerText = `Como fecha de nacimiento, usted ha indicado: [${fecha.value}]`;
+    document.getElementById("codPostalR").innerText = `Como código postal, usted ha indicado: [${codPostal.value}]`;
+    document.getElementById("paisR").innerText = `Como pais, usted ha seleccionado: [${pais.value}]`;
+    // if (document.getElementById("genH").checked) {
+    //     document.getElementById("generoR").innerText = `Como género, usted ha seleccionado: [${genH.value}]`;
+    // } else if (document.getElementById("genM").checked) {
+    //     document.getElementById("generoR").innerText = `Como género, usted ha seleccionado: [${genM.value}]`;
+    // } else if (document.getElementById("genU").checked) {
+    //     document.getElementById("generoR").innerText = `Como género, usted ha seleccionado: [${genU.value}]`;
+    // }
+    document.getElementById("generoR").innerText = `Como género, usted ha seleccionado: [${generoEscogido}]`;
+
+    // let colores = []
+    // if (document.getElementById("colorRojo").checked) {
+    //     colores.push("Color rojo")
+    // }
+    // if (document.getElementById("colorAzul").checked) {
+    //     colores.push("Color azul")
+    // }
+    // if (document.getElementById("colorVerde").checked) {
+    //     colores.push("Color verde")
+    // }
+
+    document.getElementById("preferenciasR").innerText = `Como preferencia de color, usted ha seleccionado: [${colores.join(', ')}]`;
+
+    document.getElementById("phoneR").innerText = `Como teléfono, usted ha indicado: [${phone.value}]`;
+    document.getElementById("emailR").innerText = `Como correo electrónico, usted ha indicado: [${email.value}]`;
+    document.getElementById("passwordR").innerText = `Como contraseña, usted ha indicado: [${password.value}]`;
+}
