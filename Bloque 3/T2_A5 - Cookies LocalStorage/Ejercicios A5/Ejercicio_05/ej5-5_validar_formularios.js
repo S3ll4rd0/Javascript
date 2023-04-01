@@ -8,7 +8,7 @@ const regularExps = new Map()
     regularExps.set("dni", "^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$");
     regularExps.set("codPostal", "^[0-9]{1,5}$");
     regularExps.set("phone", "^[67][0-9]{8}$");
-    regularExps.set("email", "^[a-zA-Z0-9.-_]+@[a-zA-Z_]+\.[a-zA-Z]{2,3}$");
+    regularExps.set("email", "^[a-zA-Z0-9.-_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$");
 }
 
 let flag = true;
@@ -77,27 +77,38 @@ const checkInputs = (id, check) => {
         document.getElementById("enviar").disabled = true;
     }
 }
+
+let formVacioKeyPress = function() { 
+    if (document.getElementById(this.id).value == '') {
+        setInvalidAttribute(this); 
+        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
+    } 
+}
+
+let formVacioBlur = function() { 
+    if (document.getElementById(this.id).value == '') {
+        setInvalidAttribute(this); 
+        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
+    } 
+}
 //#endregion
 
 //#region Nombre
-let nombre_controller = function() { 
+let nombre_inputKeyPress = function() { 
     input = document.getElementById(this.id).value;
     errorMsg = document.getElementById(`${this.id}E`);
     successMsg = document.getElementById(`${this.id}S`);
     regex = new RegExp(regularExps.get(this.id))
 
-    deleteErrorMessage(errorMsg);
-    deleteSuccessMessage(successMsg)
-    dropInvalidAttribute(this);
+    if (input != '') {
+        console.log(input.length);
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
 
-    if (document.getElementById(this.id).value == '') {
-        setInvalidAttribute(this); 
-        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
-    } 
-    else {
         if (regex.test(input)) {
             dropInvalidAttribute(this)
-    
+
             if (input.length > 2) {
                 setValidAttribute(this)
                 checkInputs(this.id, true)
@@ -114,30 +125,60 @@ let nombre_controller = function() {
             showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, un nombre solo debería contener letras, reviselo para continuar.");
             checkInputs(this.id, false)
         }
-    }
+    } 
 }
 
-nombre.addEventListener('keyup', nombre_controller); 
-nombre.addEventListener('blur', nombre_controller);
-
-//#endregion
-
-//#region Dirección
-let direccion_controller = function() { 
+let nombre_inputBlur = function() { 
     input = document.getElementById(this.id).value;
     errorMsg = document.getElementById(`${this.id}E`);
     successMsg = document.getElementById(`${this.id}S`);
     regex = new RegExp(regularExps.get(this.id))
 
-    deleteErrorMessage(errorMsg);
-    deleteSuccessMessage(successMsg)
-    dropInvalidAttribute(this);
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
 
-    if (document.getElementById(this.id).value == '') {
-        setInvalidAttribute(this); 
-        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
+        if (regex.test(input)) {
+            dropInvalidAttribute(this)
+
+            if (input.length > 2) {
+                setValidAttribute(this)
+                checkInputs(this.id, true)
+                showSuccessMessage(successMsg, "OK")
+            }
+            else {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "El nombre no puede contener tan pocos caracteres, reviselo para continuar.");
+                checkInputs(this.id, false)
+            }
+        }
+        else {
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, un nombre solo debería contener letras, reviselo para continuar.");
+            checkInputs(this.id, false)
+        }
     } 
-    else {
+}
+nombre.addEventListener('keypress', formVacioKeyPress); 
+nombre.addEventListener('blur', formVacioBlur); 
+nombre.addEventListener('keypress', nombre_inputKeyPress); 
+nombre.addEventListener('blur', nombre_inputBlur);
+
+//#endregion
+
+//#region Dirección
+let direccion_inputKeyPress = function() { 
+    input = document.getElementById(this.id).value;
+    errorMsg = document.getElementById(`${this.id}E`);
+    successMsg = document.getElementById(`${this.id}S`);
+    regex = new RegExp(regularExps.get(this.id))
+
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
         if (regex.test(input)) {
             dropInvalidAttribute(this)
 
@@ -157,29 +198,100 @@ let direccion_controller = function() {
             showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
             checkInputs(this.id, false)
         }
-    }
+    } 
 }
 
-direccion.addEventListener('keyup', direccion_controller); 
-direccion.addEventListener('blur', direccion_controller)
-//#endregion
-
-//#region NIF
-let dni_controller = function() { 
+let direccion_inputBlur = function() { 
     input = document.getElementById(this.id).value;
     errorMsg = document.getElementById(`${this.id}E`);
     successMsg = document.getElementById(`${this.id}S`);
     regex = new RegExp(regularExps.get(this.id))
 
-    deleteErrorMessage(errorMsg);
-    deleteSuccessMessage(successMsg)
-    dropInvalidAttribute(this);
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
 
-    if (document.getElementById(this.id).value == '') {
-        setInvalidAttribute(this); 
-        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
+        if (regex.test(input)) {
+            dropInvalidAttribute(this)
+
+            if (input.length > 5) {
+                setValidAttribute(this)
+                checkInputs(this.id, true)
+                showSuccessMessage(successMsg, "OK")
+            }
+            else {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "la dirección no puede contener tan pocos caracteres, reviselo para continuar.");
+                checkInputs(this.id, false)
+            }
+        }
+        else {
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
+            checkInputs(this.id, false)
+        }
     } 
-    else {
+}
+
+direccion.addEventListener('keypress', formVacioKeyPress); 
+direccion.addEventListener('blur', formVacioBlur); 
+direccion.addEventListener('keypress', direccion_inputKeyPress); 
+direccion.addEventListener('blur', direccion_inputBlur)
+//#endregion
+
+//#region NIF
+let dni_inputKeyPress = function() { 
+    input = document.getElementById(this.id).value;
+    errorMsg = document.getElementById(`${this.id}E`);
+    successMsg = document.getElementById(`${this.id}S`);
+    regex = new RegExp(regularExps.get(this.id))
+
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
+        if (input.length == 9) {
+            if (regex.test(input)) {
+                dropInvalidAttribute(this)
+
+                if ("TRWAGMYFPDXBNJZSQVHLCKE".charAt(Number(input.substr(0, 8) % 23)) == (input.substr(-1)) ) {
+                    setValidAttribute(this)
+                    checkInputs(this.id, true)
+                    showSuccessMessage(successMsg, "OK")
+                }
+                else {
+                    setInvalidAttribute(this)
+                    showErrorMessage(errorMsg, "La letra no coincide con el DNI indicado, reviselo para continuar.");
+                    checkInputs(this.id, false)
+                }
+            }
+            else {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
+                checkInputs(this.id, false)
+            }
+        }
+        else if (input.length > 9) {
+            setInvalidAttribute(this)
+            checkInputs(this.id, false)
+            showErrorMessage(errorMsg, "Un DNI está compuesto por 8 números y 1 letra, el suyo excede la cantidad de caracteres, por favor, reviselo antes de continuar.");
+        }
+    } 
+}
+
+let dni_inputBlur = function() { 
+    input = document.getElementById(this.id).value;
+    errorMsg = document.getElementById(`${this.id}E`);
+    successMsg = document.getElementById(`${this.id}S`);
+    regex = new RegExp(regularExps.get(this.id))
+
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
         if (input.length == 9) {
             if (regex.test(input)) {
                 dropInvalidAttribute(this)
@@ -211,29 +323,27 @@ let dni_controller = function() {
             checkInputs(this.id, false)
             showErrorMessage(errorMsg, "Un DNI está compuesto por 8 números y 1 letra, el suyo excede la cantidad de caracteres, por favor, reviselo antes de continuar.");
         }
-    }
+    } 
 }
 
-dni.addEventListener('keyup', dni_controller); 
-dni.addEventListener('blur', dni_controller)
+dni.addEventListener('keypress', formVacioKeyPress); 
+dni.addEventListener('blur', formVacioBlur); 
+dni.addEventListener('keypress', dni_inputKeyPress); 
+dni.addEventListener('blur', dni_inputBlur)
 //#endregion
 
 //#region Fecha de nacimiento 
-let fecha_controller = function() { 
+let fecha_inputKeyPress = function() { 
     input = document.getElementById(this.id).value;
     errorMsg = document.getElementById(`${this.id}E`);
     successMsg = document.getElementById(`${this.id}S`);
     regex = new RegExp(regularExps.get(this.id))
 
-    deleteErrorMessage(errorMsg);
-    deleteSuccessMessage(successMsg)
-    dropInvalidAttribute(this);
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
 
-    if (document.getElementById(this.id).value == '') {
-        setInvalidAttribute(this); 
-        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
-    } 
-    else {
         let dateNow = new Date();
         let dateInput = new Date(input)
         if (dateNow < dateInput) {
@@ -247,29 +357,54 @@ let fecha_controller = function() {
             checkInputs(this.id, true)
             showSuccessMessage(successMsg, "OK")
         }
-    }
+    } 
 }
 
-fecha.addEventListener('keyup', fecha_controller); 
-fecha.addEventListener('blur', fecha_controller)
-//#endregion
-
-//#region Codigo Postal
-let codPostal_controller = function() { 
+let fecha_inputBlur = function() { 
     input = document.getElementById(this.id).value;
     errorMsg = document.getElementById(`${this.id}E`);
     successMsg = document.getElementById(`${this.id}S`);
     regex = new RegExp(regularExps.get(this.id))
 
-    deleteErrorMessage(errorMsg);
-    deleteSuccessMessage(successMsg)
-    dropInvalidAttribute(this);
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
 
-    if (document.getElementById(this.id).value == '') {
-        setInvalidAttribute(this); 
-        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
+        let dateNow = new Date();
+        let dateInput = new Date(input)
+        if (dateNow < dateInput) {
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "La fecha de nacimiento no puede ser superior a la fecha actual. ");
+            checkInputs(this.id, false)
+        }
+        else {
+            setValidAttribute(this)
+            deleteErrorMessage(errorMsg)
+            checkInputs(this.id, true)
+            showSuccessMessage(successMsg, "OK")
+        }
     } 
-    else {
+}
+
+fecha.addEventListener('keypress', formVacioKeyPress); 
+fecha.addEventListener('blur', formVacioBlur); 
+fecha.addEventListener('keypress', fecha_inputKeyPress); 
+fecha.addEventListener('blur', fecha_inputBlur)
+//#endregion
+
+//#region Codigo Postal
+let codPostal_inputKeyPress = function() { 
+    input = document.getElementById(this.id).value;
+    errorMsg = document.getElementById(`${this.id}E`);
+    successMsg = document.getElementById(`${this.id}S`);
+    regex = new RegExp(regularExps.get(this.id))
+
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
         if (Number.isNaN(Number(input))) {
             setInvalidAttribute(this)
             showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
@@ -300,11 +435,57 @@ let codPostal_controller = function() {
                 }
             }
         }
-    }
+    } 
 }
 
-codPostal.addEventListener('keyup', codPostal_controller); 
-codPostal.addEventListener('blur', codPostal_controller)
+let codPostal_inputBlur = function() { 
+    input = document.getElementById(this.id).value;
+    errorMsg = document.getElementById(`${this.id}E`);
+    successMsg = document.getElementById(`${this.id}S`);
+    regex = new RegExp(regularExps.get(this.id))
+
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
+        if (Number.isNaN(Number(input))) {
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
+            checkInputs(this.id, false)
+        }
+        else {
+            if (input.length < 5) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "Un código postal no puede ser menor a 5 números, reviselo para continuar.");
+                checkInputs(this.id, false)
+            }
+            else if (input.length > 5) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "Un código postal no puede ser mayor a 5 números, reviselo para continuar.");
+                checkInputs(this.id, false)
+            }
+            else if (input.length == 5) {
+                if (regex.test(input)) {
+                    setValidAttribute(this)
+                    deleteErrorMessage(errorMsg)
+                    checkInputs(this.id, true)
+                    showSuccessMessage(successMsg, "OK")
+                }
+                else {
+                    setInvalidAttribute(this)
+                    showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
+                    checkInputs(this.id, false)
+                }
+            }
+        }
+    } 
+}
+
+codPostal.addEventListener('keypress', formVacioKeyPress); 
+codPostal.addEventListener('blur', formVacioBlur); 
+codPostal.addEventListener('keypress', codPostal_inputKeyPress); 
+codPostal.addEventListener('blur', codPostal_inputBlur)
 //#endregion
 
 //#region País
@@ -413,21 +594,68 @@ document.getElementById("colorVerde").addEventListener('change', function() {
 //#endregion
 
 //#region Número Teléfono 
-let phone_controller = function() { 
+let phone_inputKeyPress = function() { 
     input = document.getElementById(this.id).value;
     errorMsg = document.getElementById(`${this.id}E`);
     successMsg = document.getElementById(`${this.id}S`);
     regex = new RegExp(regularExps.get(this.id))
-    
-    deleteErrorMessage(errorMsg);
-    deleteSuccessMessage(successMsg)
-    dropInvalidAttribute(this);
 
-    if (document.getElementById(this.id).value == '') {
-        setInvalidAttribute(this); 
-        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
+        if (Number.isNaN(Number(input))) {
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
+            checkInputs(this.id, false)
+        }
+        else {
+            if (input.length < 9) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "Un número de telefóno español no puede ser menor a 9 números, reviselo para continuar.");
+                checkInputs(this.id, false)
+            }
+            else if (input.length > 9) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "Un número de telefóno español no puede ser mayor a 9 números, reviselo para continuar.");
+                checkInputs(this.id, false)
+            }
+            else if (input.length == 9) {
+                if (input.charAt(0) != '6' || input.charAt(0) != '7') {
+                    setInvalidAttribute(this)
+                    showErrorMessage(errorMsg, "Los teléfonos en españa solamente empiezan por 6 o 7, reviselo para continuar.");
+                    checkInputs(this.id, false)
+                }
+                else {
+                    if (regex.test(input)) {
+                        setValidAttribute(this)
+                        deleteErrorMessage(errorMsg)
+                        checkInputs(this.id, true)
+                        showSuccessMessage(successMsg, "OK")
+                    }
+                    else {
+                        setInvalidAttribute(this)
+                        showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar.");
+                        checkInputs(this.id, false)
+                    }
+                }
+            }
+        }
     } 
-    else {
+}
+
+let phone_inputBlur = function() { 
+    input = document.getElementById(this.id).value;
+    errorMsg = document.getElementById(`${this.id}E`);
+    successMsg = document.getElementById(`${this.id}S`);
+    regex = new RegExp(regularExps.get(this.id))
+
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
         if (Number.isNaN(Number(input))) {
             setInvalidAttribute(this)
             showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
@@ -465,67 +693,74 @@ let phone_controller = function() {
                 }
             }
         }
-    }
+    } 
 }
 
-phone.addEventListener('keyup', phone_controller); 
-phone.addEventListener('blur', phone_controller)
+phone.addEventListener('keypress', formVacioKeyPress); 
+phone.addEventListener('blur', formVacioBlur); 
+phone.addEventListener('keypress', phone_inputKeyPress); 
+phone.addEventListener('blur', phone_inputBlur)
 //#endregion
 
 //#region Correo electrónico 
-let email_controller = function() { 
+let email_inputKeyPress = function() { 
     input = document.getElementById(this.id).value;
     errorMsg = document.getElementById(`${this.id}E`);
     successMsg = document.getElementById(`${this.id}S`);
     regex = new RegExp(regularExps.get(this.id))
 
-    deleteErrorMessage(errorMsg);
-    deleteSuccessMessage(successMsg)
-    dropInvalidAttribute(this);
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
 
-    if (document.getElementById(this.id).value == '') {
-        setInvalidAttribute(this); 
-        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
-    } 
-    else {
         if (regex.test(input)) {
             dropInvalidAttribute(this)
-
-            if (input.length >= 6) {
-                if (input.includes("@") && input.substr(input.length-3, 1) == "." || input.substr(input.length-4, 1) == ".") {
-                    setValidAttribute(this)
-                    checkInputs(this.id, true)
-                    showSuccessMessage(successMsg, "OK")
-                }
-                else {
-                    setInvalidAttribute(this)
-                    showErrorMessage(errorMsg, "El correo está incompleto o no ha indicado el dominio o lo ha indicado de forma erronea, reviselo para continuar.");
-                    checkInputs(this.id, false)
-                }
+            if (input.length > 6) {
+                setValidAttribute(this)
+                checkInputs(this.id, true)
+                showSuccessMessage(successMsg, "OK")
             }
         }
         else {
-            console.log(input.includes("@"));
-            if (!input.includes("@") && (input.substr(input.length-3, 1) == "." || input.substr(input.length-4, 1) == ".")) {
-                setInvalidAttribute(this)
-                showErrorMessage(errorMsg, "El correo está incompleto o no ha indicado el dominio o lo ha indicado de forma erronea, reviselo para continuar.");
-                checkInputs(this.id, false)
-            } else {
-                setInvalidAttribute(this)
-                showErrorMessage(errorMsg, "Su correo electrónico está incompleto, o a introducido carácteres incorrectos, reviselo para continuar.");
-                checkInputs(this.id, false)
-            }
-            if (input.length < 6) {
-                setInvalidAttribute(this)
-                showErrorMessage(errorMsg, "El correo electrónico no puede tener tan pocos caracteres, reviselo para continuar.");
-                checkInputs(this.id, false)
-            }
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, un nombre solo debería contener letras, reviselo para continuar.");
+            checkInputs(this.id, false)
         }
-    }
+    } 
 }
 
-email.addEventListener('keyup', email_controller); 
-email.addEventListener('blur', email_controller)
+let email_inputBlur = function() { 
+    input = document.getElementById(this.id).value;
+    errorMsg = document.getElementById(`${this.id}E`);
+    successMsg = document.getElementById(`${this.id}S`);
+    regex = new RegExp(regularExps.get(this.id))
+
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
+        if (regex.test(input)) {
+            dropInvalidAttribute(this)
+            if (input.length > 6) {
+                setValidAttribute(this)
+                checkInputs(this.id, true)
+                showSuccessMessage(successMsg, "OK")
+            }
+        }
+        else {
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar.");
+            checkInputs(this.id, false)
+        }
+    } 
+}
+
+email.addEventListener('keypress', formVacioKeyPress); 
+email.addEventListener('blur', formVacioBlur); 
+email.addEventListener('keypress', email_inputKeyPress); 
+email.addEventListener('blur', email_inputBlur)
 //#endregion
 
 //#region Contraseña 
@@ -542,42 +777,18 @@ function checkLetters(letras, contraseña) {
     }
 }
 
-let pass_controller = function() { 
+let pass_inputKeyPress = function() { 
     input = document.getElementById(this.id).value;
     errorMsg = document.getElementById(`${this.id}E`);
     successMsg = document.getElementById(`${this.id}S`);
     regex = new RegExp(regularExps.get(this.id))
 
-    deleteErrorMessage(errorMsg);
-    deleteSuccessMessage(successMsg)
-    dropInvalidAttribute(this);
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
 
-    if (document.getElementById(this.id).value == '') {
-        setInvalidAttribute(this); 
-        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
-    } 
-    else {
-        if (! checkLetters(minus, input)) {
-            setInvalidAttribute(this)
-            showErrorMessage(errorMsg, "No ha introducido ninguna minúscula, reviselo para continuar.");
-            checkInputs(this.id, false)
-        } 
-        else if (! checkLetters(mayus, input)) {
-            setInvalidAttribute(this)
-            showErrorMessage(errorMsg, "No ha introducido ninguna mayúscula, reviselo para continuar.");
-            checkInputs(this.id, false)
-        } 
-        else if (! checkLetters(nums, input)) {
-            setInvalidAttribute(this)
-            showErrorMessage(errorMsg, "No ha introducido ningun número, reviselo para continuar.");
-            checkInputs(this.id, false)
-        } 
-        else if (! checkLetters(specChars, input)) {
-            setInvalidAttribute(this)
-            showErrorMessage(errorMsg, "No ha introducido ningun caracter especial, reviselo para continuar.");
-            checkInputs(this.id, false)
-        }
-        else if (input.length < 6) {
+        if (input.length < 6) {
             setInvalidAttribute(this)
             showErrorMessage(errorMsg, "La contraseña tiene menos de 6 caracteres, debería tener entre 6 y 12 caracteres.");
             checkInputs(this.id, false)
@@ -587,39 +798,115 @@ let pass_controller = function() {
             showErrorMessage(errorMsg, "La contraseña tiene más de 12 caracteres, debería tener entre 6 y 12 caracteres.");
             checkInputs(this.id, false)
         }
-        else if (checkLetters(minus, input) && checkLetters(mayus, input) && checkLetters(nums, input) && checkLetters(specChars, input) && input.length >= 6 && input.length <= 12) {
-            setValidAttribute(this)
-            checkInputs(this.id, true)
-            showSuccessMessage(successMsg, "OK")
-        } 
         else {
-            setInvalidAttribute(this)
-            showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
-            checkInputs(this.id, false)
+            if (! checkLetters(minus, input)) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "No ha introducido ninguna minúscula, reviselo para continuar.");
+                checkInputs(this.id, false)
+            } 
+            else if (! checkLetters(mayus, input)) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "No ha introducido ninguna mayúscula, reviselo para continuar.");
+                checkInputs(this.id, false)
+            } 
+            else if (! checkLetters(nums, input)) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "No ha introducido ningun número, reviselo para continuar.");
+                checkInputs(this.id, false)
+            } 
+            else if (! checkLetters(specChars, input)) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "No ha introducido ningun caracter especial, reviselo para continuar.");
+                checkInputs(this.id, false)
+            }
+            else if (checkLetters(minus, input) && checkLetters(mayus, input) && checkLetters(nums, input) && checkLetters(specChars, input)) {
+                setValidAttribute(this)
+                checkInputs(this.id, true)
+                showSuccessMessage(successMsg, "OK")
+            } 
+            else {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
+                checkInputs(this.id, false)
+            }
         }
-    }
+    } 
 }
 
-pass.addEventListener('keyup', pass_controller); 
-pass.addEventListener('blur', pass_controller)
-//#endregion
-
-//#region Contraseña Validación 
-let password_controller = function() { 
+let pass_inputBlur = function() { 
     input = document.getElementById(this.id).value;
     errorMsg = document.getElementById(`${this.id}E`);
     successMsg = document.getElementById(`${this.id}S`);
     regex = new RegExp(regularExps.get(this.id))
 
-    deleteErrorMessage(errorMsg);
-    deleteSuccessMessage(successMsg)
-    dropInvalidAttribute(this);
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
 
-    if (document.getElementById(this.id).value == '') {
-        setInvalidAttribute(this); 
-        showErrorMessage(document.getElementById(`${this.id}E`), "No puede dejar este campo vacío");
+        if (input.length < 6) {
+            setInvalidAttribute(this)
+            showErrorMessage(message, "La contraseña tiene menos de 6 caracteres, debería tener entre 6 y 12 caracteres.");
+            checkInputs(this.id, false)
+        }
+        else if (input.length > 12) {
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "La contraseña tiene más de 12 caracteres, debería tener entre 6 y 12 caracteres.");
+            checkInputs(this.id, false)
+        }
+        else {
+            if (! checkLetters(minus, input)) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "No ha introducido ninguna minúscula, reviselo para continuar.");
+                checkInputs(this.id, false)
+            } 
+            else if (! checkLetters(mayus, input)) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "No ha introducido ninguna mayúscula, reviselo para continuar.");
+                checkInputs(this.id, false)
+            } 
+            else if (! checkLetters(nums, input)) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "No ha introducido ningun número, reviselo para continuar.");
+                checkInputs(this.id, false)
+            } 
+            else if (! checkLetters(specChars, input)) {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "No ha introducido ningun caracter especial, reviselo para continuar.");
+                checkInputs(this.id, false)
+            }
+            else if (checkLetters(minus, input) && checkLetters(mayus, input) && checkLetters(nums, input) && checkLetters(specChars, input)) {
+                setValidAttribute(this)
+                checkInputs(this.id, true)
+                showSuccessMessage(successMsg, "OK")
+            } 
+            else {
+                setInvalidAttribute(this)
+                showErrorMessage(errorMsg, "Ha introducido carácteres incorrectos, reviselo para continuar");
+                checkInputs(this.id, false)
+            }
+        }
     } 
-    else {
+}
+
+pass.addEventListener('keypress', formVacioKeyPress); 
+pass.addEventListener('blur', formVacioBlur); 
+pass.addEventListener('keypress', pass_inputKeyPress); 
+pass.addEventListener('blur', pass_inputBlur)
+//#endregion
+
+//#region Contraseña Validación 
+let password_inputKeyPress = function() { 
+    input = document.getElementById(this.id).value;
+    errorMsg = document.getElementById(`${this.id}E`);
+    successMsg = document.getElementById(`${this.id}S`);
+    regex = new RegExp(regularExps.get(this.id))
+
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
         if (pass.value === input) {
             setValidAttribute(this)
             checkInputs(this.id, true)
@@ -635,14 +922,44 @@ let password_controller = function() {
             showErrorMessage(errorMsg, "Las contraseñas introducidas no coinciden.");
             checkInputs(this.id, false)
         }
-    }
+    } 
 }
 
-password.addEventListener('keyup', password_controller); 
-password.addEventListener('blur', password_controller)
+let password_inputBlur = function() { 
+    input = document.getElementById(this.id).value;
+    errorMsg = document.getElementById(`${this.id}E`);
+    successMsg = document.getElementById(`${this.id}S`);
+    regex = new RegExp(regularExps.get(this.id))
+
+    if (input != '') {
+        deleteErrorMessage(errorMsg);
+        deleteSuccessMessage(successMsg)
+        dropInvalidAttribute(this);
+
+        if (pass.value === input) {
+            setValidAttribute(this)
+            checkInputs(this.id, true)
+            showSuccessMessage(successMsg, "OK")
+        } 
+        else if (pass.value.length == 0) {
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "Primero introduzca una contraseña en el formulario de contraseña superior a este.");
+            checkInputs(this.id, false)
+        } 
+        else {
+            setInvalidAttribute(this)
+            showErrorMessage(errorMsg, "Las contraseñas introducidas no coinciden.");
+            checkInputs(this.id, false)
+        }
+    } 
+}
+
+password.addEventListener('keypress', formVacioKeyPress); 
+password.addEventListener('blur', formVacioBlur); 
+password.addEventListener('keypress', password_inputKeyPress); 
+password.addEventListener('blur', password_inputBlur)
 //#endregion
 
-//#region Borrar formulario
 function borrar_formulario() {
     nombre.innerText = "";
     setInvalidAttribute(nombre);
@@ -709,12 +1026,10 @@ function borrar_formulario() {
     boolInputs.forEach((value) => value = false);
     checkInputs("pais", true);
 }
-//#endregion
 
-//#region Mostrar Formulario
 function enviar_formulario() {
     document.getElementsByTagName("body")[0].removeChild(document.getElementById("formulario"));
-
+    // document.getElementById("formulario").style.visibility = 'hidden';
     document.getElementById("respuestas").style.visibility = 'visible';
     
     document.getElementById("nombreR").innerText = `Como nombre, usted ha indicado: [${nombre.value}]`;
@@ -723,10 +1038,29 @@ function enviar_formulario() {
     document.getElementById("fechaR").innerText = `Como fecha de nacimiento, usted ha indicado: [${fecha.value}]`;
     document.getElementById("codPostalR").innerText = `Como código postal, usted ha indicado: [${codPostal.value}]`;
     document.getElementById("paisR").innerText = `Como pais, usted ha seleccionado: [${pais.value}]`;
+    // if (document.getElementById("genH").checked) {
+    //     document.getElementById("generoR").innerText = `Como género, usted ha seleccionado: [${genH.value}]`;
+    // } else if (document.getElementById("genM").checked) {
+    //     document.getElementById("generoR").innerText = `Como género, usted ha seleccionado: [${genM.value}]`;
+    // } else if (document.getElementById("genU").checked) {
+    //     document.getElementById("generoR").innerText = `Como género, usted ha seleccionado: [${genU.value}]`;
+    // }
     document.getElementById("generoR").innerText = `Como género, usted ha seleccionado: [${generoEscogido}]`;
+
+    // let colores = []
+    // if (document.getElementById("colorRojo").checked) {
+    //     colores.push("Color rojo")
+    // }
+    // if (document.getElementById("colorAzul").checked) {
+    //     colores.push("Color azul")
+    // }
+    // if (document.getElementById("colorVerde").checked) {
+    //     colores.push("Color verde")
+    // }
+
     document.getElementById("preferenciasR").innerText = `Como preferencia de color, usted ha seleccionado: [${colores.join(', ')}]`;
+
     document.getElementById("phoneR").innerText = `Como teléfono, usted ha indicado: [${phone.value}]`;
     document.getElementById("emailR").innerText = `Como correo electrónico, usted ha indicado: [${email.value}]`;
     document.getElementById("passwordR").innerText = `Como contraseña, usted ha indicado: [${password.value}]`;
 }
-//#endregion

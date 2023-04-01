@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ejercicio bloque 3</title>
+    <meta charset="UTF-8">
+    <style>
+        .invalid {
+            border: 2px solid red;
+        }
+        .valid {
+            border: 2px solid green;
+        }
+        .error_message {
+            color: red;
+        }
+        .success_message {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Ejercicio bloque 3</h1>
+    <h2>Ejercicio 05</h2>
+    <form id="formulario">
+        <fieldset>
+            <legend>Datos personales del usuario</legend>
+
+            <p id="nombreP">
+                <label for="nombre">Nombre: </label> 
+                <input type="text" id="nombre">
+                <small id="nombreE" class="error_message"></small>
+                <small id="nombreS" class="success_message"></small>
+            </p>
+
+            <p  id="direccionP">
+                <label for="direccion">Dirección: </label> 
+                <input type="text" id="direccion">
+                <small id="direccionE" class="error_message"></small>
+                <small id="direccionS" class="success_message"></small>
+            </p>
+
+            <p  id="dniP">
+                <label for="dni">NIF: </label> 
+                <input type="text" id="dni">
+                <small id="dniE" class="error_message"></small>
+                <small id="dniS" class="success_message"></small><br>
+            </p>
+
+            <p  id="fechaP">
+                <label for="fecha">Fecha de nacimiento: </label> 
+                <input type="date" id="fecha" min="1920-01-01" max="2023-26-03">
+                <small id="fechaE" class="error_message"></small>
+                <small id="fechaS" class="success_message"></small><br>
+            </p>
+
+            <p  id="CPP">
+                <label for="CP">Código postal: </label> 
+                <input type="text" id="codPostal" >
+                <small id="codPostalE" class="error_message"></small>
+                <small id="codPostalS" class="success_message"></small><br>
+            </p>
+
+            <p  id="paisP">
+                <label for="pais">País: </label> 
+                <select name="pais" id="pais">
+                    <option value="España">España</option>
+                    <option value="Francia">Francia</option>
+                    <option value="Dinamarca">Dinamarca</option>
+                    <option value="Alemania">Alemania</option>
+                    <option value="Italia">Italia</option>
+                    <option value="Portugal">Portugal</option>
+                </select>
+                <small id="paisE" class="error_message"></small>
+                <small id="paisS" class="success_message"></small>
+            </p>
+
+            <fieldset id="generoField">
+                <legend>Genero</legend>
+
+                <p>
+                    <input type="radio" class="genero" name="gender" id="genH" value="Hombre">
+                    <label for="genH">Hombre</label>
+                </p>
+                <p>
+                    <input type="radio" class="genero" name="gender" id="genM" value="Mujer">
+                    <label for="genM">Mujer</label>
+                </p>
+                <p>
+                    <input type="radio" class="genero" name="gender" id="genU" value="Prefiere no indicarlo">
+                    <label for="genU">Prefiero no indicarlo</label>
+                </p>
+                <small id="generoE" class="error_message"></small>
+                <small id="generoS" class="success_message"></small>
+            </fieldset>
+
+            <fieldset id="preferenciasField">
+                <legend>Preferencias</legend>
+
+                <p>
+                    <input type="checkbox" id="colorRojo" name="color" value="Color rojo">
+                    <label for="colorRojo"> Prefiero el color rojo. </label><br>
+                </p>
+                <p>
+                    <input type="checkbox" id="colorAzul" name="color" value="Color azul">
+                    <label for="colorAzul"> Prefiero el color azul. </label><br>
+                </p>
+                <p>
+                    <input type="checkbox" id="colorVerde" name="color" value="Color verde">
+                    <label for="colorVerde"> Prefiero el color verde. </label><br>
+                </p>
+                <small id="preferenciasE" class="error_message"></small>
+                <small id="preferenciasS" class="success_message"></small>
+            </fieldset>
+
+            <p  id="phoneP">
+                <label for="phone">Número de teléfono:</label>
+                <input type="tel" id="phone" name="phone">
+                <small id="phoneE" class="error_message"></small>
+                <small id="phoneS" class="success_message"></small><br>
+            </p>
+
+            <p  id="emailP">
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" size="30">
+                <small id="emailE" class="error_message"></small>
+                <small id="emailS" class="success_message"></small>
+            </p>
+
+            <p  id="passP">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="pass" maxlength="12">
+                <small id="passE" class="error_message"></small>
+                <small id="passS" class="success_message"></small><br>
+                <small>Caracteres alfanuméricos, entre 6 y 12 caracteres<br>Puede introducir mayúsculas, minusculas, y caracteres especiales -_@*#</small>
+            </p>
+
+            <p  id="passwordP">
+                <label for="password">Repita la contraseña:</label>
+                <input type="password" id="password" maxlength="12">
+                <small id="passwordE" class="error_message"></small>
+                <small id="passwordS" class="success_message"></small><br>
+                <small>Introduzca la misma contraseña que en el paso anterior</small>
+            </p>
+
+        </fieldset>
+        <br><br>
+
+        <input type="button" id="guardar" value="Guardar" onclick="enviar_formulario()">
+        <input type="button" id="recuperar" value="Recuperar" onclick="borrar_formulario()">
+        <input type="button" id="cancelar" value="Cancelar" onclick="borrar_formulario()">
+        <input type="button" id="borrar" value="Borrar Almacenamiento" onclick="borrar_formulario()">
+    </form>
+    
+    <script src="./ej5-5.js"></script>
+    <script src="./ej5-5_validar_formularios.js"></script>
+</body>
+
+</html>
